@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+
+    <link href="{% static '/tasks/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(72, 134, 134);
+        }
+        input{
+            width:100%;
+            padding: 12px 20px;
+            margin: 7px 0;
+            box-sizing: border-box;
+        }
+
+        input::placeholder{
+            color:#7a7676;
+        }
+
+        .center-items{
+            background-color: #fff;
+        }
+        .single-item{
+            background-color: rgb(169, 131, 212);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-5 border p-3 center-items mt-5 mb-4 shadow-sm bg-body">
+                 
+
+                <form method="POST" action="/" class="mb-3">
+                    {% csrf_token %}
+                    
+                    {{form.title}}
+                    <input type="submit" class="btn btn-success " value="Create task">
+                </form>
+                {% for task in tasks %}
+                    <div class="single-item mb-2 p-3 rounded">
+                        <a href="{% url 'update_task' task.id %}" class="btn btn-primary btn-sm">Update</a>
+                        <a href="{% url 'delete' task.id %}" class="btn btn-warning btn-sm">Delete</a>
+            
+                        {% if task.complete == True %}
+                            <strike>{{ task.title }}</strike>
+                        {% else %}
+                            <span>{{ task.title }}</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static '/tasks/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
